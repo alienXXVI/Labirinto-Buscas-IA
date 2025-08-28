@@ -1,20 +1,46 @@
 #include "graph.h"
+#include <iostream>
 
-void Graph::addNode(const std::string &nome) {
-    if (nodes.find(nome) == nodes.end()) {
-        Node n;
-        n.nome = nome;
-        nodes[nome] = n;
+using namespace std;
+
+Graph::Graph(bool oriented) {
+    this->oriented = oriented;
+}
+
+void Graph::setOriented(bool val) {
+    oriented = val;
+}
+
+bool Graph::isOriented() const { // entender
+    return oriented;
+}
+
+void Graph::addNode(const string &name) { // entender
+    if (nodes.find(name) == nodes.end()) {
+        nodes[name] = Node{name, {}, 0};
     }
 }
 
-void Graph::addEdge(const std::string &origem, const std::string &destino, int custo) {
-    nodes[origem].vizinhos.push_back({destino, custo});
+void Graph::addEdge(const string &from, const string &to, int cost) {
+    addNode(from);
+    addNode(to);
+
+    nodes[from].neighbors.push_back({to, cost});
+    if (!oriented) {
+        nodes[to].neighbors.push_back({from, cost});
+    }
 }
 
-Node* Graph::getNode(const std::string &nome) {
-    if (nodes.find(nome) != nodes.end()) {
-        return &nodes[nome];
+void Graph::setHeuristic(const string &node, int h) {
+    if (nodes.find(node) != nodes.end()) {
+        nodes[node].heuristic = h;
     }
-    return nullptr;
+}
+
+vector<Edge> Graph::getNeighbors(const string &node) const {
+    auto it = nodes.find(node);
+    if (it != nodes.end()) {
+        return it->second.neighbors;
+    }
+    return {};
 }
