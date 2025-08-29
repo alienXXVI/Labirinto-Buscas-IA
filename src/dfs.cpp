@@ -1,16 +1,20 @@
 #include "dfs.h"
 #include <iostream>
 #include <iomanip>
+#include <list>
 using namespace std;
 
 void runDFS(const Graph &grafo, const string &start, const string &goal) {
-    cout << "Inicio da execucao" << endl;
+    cout << "Inicio da execucao";
 
-    stack<DFSState> pilha;
+    // Usando list (ao invés de stack) para conseguir inserir no início e percorrer
+    list<DFSState> pilha;
     unordered_set<string> visitados;
+    unordered_set<string> naFronteira; // controla quem já está na pilha
 
     // Estado inicial
-    pilha.push({start, 0, {start}});
+    pilha.push_front({start, 0, {start}});
+    naFronteira.insert(start);
 
     int iteracao = 1;
     int nodesExpanded = 0; // contador de nós expandidos
@@ -20,20 +24,15 @@ void runDFS(const Graph &grafo, const string &start, const string &goal) {
 
         // Mostrar a pilha (topo à esquerda)
         cout << "Pilha: ";
-        stack<DFSState> temp = pilha; // cópia para exibir
-        vector<DFSState> ordem;
-        while (!temp.empty()) {
-            ordem.push_back(temp.top());
-            temp.pop();
-        }
-        for (size_t i = 0; i < ordem.size(); ++i) { // topo à esquerda
-            cout << "(" << ordem[i].node << ": " << ordem[i].cost << ") ";
+        for (auto it = pilha.begin(); it != pilha.end(); ++it) {
+            cout << "(" << it->node << ": " << it->cost << ") ";
         }
         cout << endl;
 
         // Explorar nó do topo
-        DFSState atual = pilha.top();
-        pilha.pop();
+        DFSState atual = pilha.front();
+        pilha.pop_front();
+        naFronteira.erase(atual.node);
         nodesExpanded++; // incrementa contador ao expandir
 
         cout << "Proximo a Ser Explorado: " << atual.node << endl;
@@ -46,37 +45,39 @@ void runDFS(const Graph &grafo, const string &start, const string &goal) {
         }
         cout << endl;
 
+        cout << "Medida de Desempenho - Nos Expandidos: " << nodesExpanded << endl;
+
         // Se for objetivo, parar
         if (atual.node == goal) {
-            cout << "\n\nCaminho Final: ";
+            cout << "\nFim da Execucao";
+            cout << "\nDistancia: " << atual.cost;
+            cout << "\nCaminho: ";
             for (size_t i = 0; i < atual.path.size(); i++) {
                 cout << atual.path[i];
                 if (i < atual.path.size() - 1) cout << " -> ";
             }
-            cout << "\nCusto Final: " << atual.cost << endl;
-            cout << "Medida de Desempenho (nos expandidos): " << nodesExpanded << endl;
+            cout << "\nMedida de Desempenho - Nos Expandidos: " << nodesExpanded << endl;
             return;
         }
 
         // Marca como visitado
         visitados.insert(atual.node);
 
-        // Expandir vizinhos (último inserido tem prioridade)
+        // Expandir vizinhos (inserindo no início da pilha, mantendo ordem do arquivo)
         auto vizinhos = grafo.getNeighbors(atual.node);
-        for (auto it = vizinhos.rbegin(); it != vizinhos.rend(); ++it) {
-            if (visitados.find(it->to) == visitados.end()) {
+        for (auto it = vizinhos.begin(); it != vizinhos.end(); ++it) {
+            if (visitados.find(it->to) == visitados.end() && naFronteira.find(it->to) == naFronteira.end()) {
                 DFSState novo;
                 novo.node = it->to;
                 novo.cost = atual.cost + it->cost;
                 novo.path = atual.path;
                 novo.path.push_back(it->to);
-                pilha.push(novo);
+                pilha.push_front(novo);   // insere no início
+                naFronteira.insert(it->to);
             }
         }
-
-        cout << "Medida de Desempenho (nos expandidos): " << nodesExpanded << endl;
     }
-
+    cout << "\nFim da Execucao";
     cout << "\nNao foi encontrado caminho ate " << goal << "." << endl;
-    cout << "Medida de Desempenho (nos expandidos): " << nodesExpanded << endl;
+    cout << "Medida de Desempenho - Nos Expandidos: " << nodesExpanded << endl;
 }

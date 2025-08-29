@@ -31,7 +31,7 @@ int main() {
     g_orientado.setHeuristic("f0",0);
 
     cout << "===== GRAFO ORIENTADO =====" << endl;
-    runDFS(g_orientado, "a0", "f0");
+    runDFS(g_orientado, "e0", "c0");
 
     cout << "\n\n";
 
@@ -61,7 +61,7 @@ int main() {
     g_nao_orientado.setHeuristic("f0",0);
 
     cout << "===== GRAFO NAO ORIENTADO =====" << endl;
-    runDFS(g_nao_orientado, "a0", "f0");
+    runDFS(g_nao_orientado, "e0", "c0");
 
     return 0;
 }
