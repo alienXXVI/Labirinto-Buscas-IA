@@ -1,67 +1,33 @@
 #include "graph.h"
+#include "astar.h"
 #include "dfs.h"
 #include <iostream>
-
 using namespace std;
 
 int main() {
-    // =======================
-    // GRAFO ORIENTADO
-    // =======================
-    Graph g_orientado(true);
+    Graph g(true); // true = orientado, false = nao-orientado
 
-    // Adicionar arestas
-    g_orientado.addEdge("a0","b0",95);
-    g_orientado.addEdge("a0","c0",44);
-    g_orientado.addEdge("a0","d0",98);
-    g_orientado.addEdge("a0","e0",49);
-    g_orientado.addEdge("b0","c0",60);
-    g_orientado.addEdge("b0","e0",31);
-    g_orientado.addEdge("b0","f0",44);
-    g_orientado.addEdge("d0","c0",32);
-    g_orientado.addEdge("d0","e0",28);
-    g_orientado.addEdge("d0","f0",34);
+    // Adicionar arestas conforme seu exemplo
+    g.addEdge("a0", "b0", 95);
+    g.addEdge("a0", "c0", 44);
+    g.addEdge("a0", "d0", 98);
+    g.addEdge("a0", "e0", 49);
+    g.addEdge("b0", "c0", 60);
+    g.addEdge("b0", "e0", 31);
+    g.addEdge("b0", "f0", 44);
+    g.addEdge("d0", "c0", 32);
+    g.addEdge("d0", "e0", 28);
+    g.addEdge("d0", "f0", 34);
 
-    // Definir heurísticas (não usado no DFS, mas útil para A*)
-    g_orientado.setHeuristic("a0",58);
-    g_orientado.setHeuristic("b0",24);
-    g_orientado.setHeuristic("c0",34);
-    g_orientado.setHeuristic("d0",37);
-    g_orientado.setHeuristic("e0",5);
-    g_orientado.setHeuristic("f0",0);
+    // Heurísticas
+    g.setHeuristic("a0", 58);
+    g.setHeuristic("b0", 24);
+    g.setHeuristic("c0", 34);
+    g.setHeuristic("d0", 37);
+    g.setHeuristic("e0", 5);
+    g.setHeuristic("f0", 0);
 
-    cout << "===== GRAFO ORIENTADO =====" << endl;
-    runDFS(g_orientado, "e0", "c0");
-
-    cout << "\n\n";
-
-    // =======================
-    // GRAFO NÃO ORIENTADO
-    // =======================
-    Graph g_nao_orientado(false);
-
-    // Adicionar as mesmas arestas
-    g_nao_orientado.addEdge("a0","b0",95);
-    g_nao_orientado.addEdge("a0","c0",44);
-    g_nao_orientado.addEdge("a0","d0",98);
-    g_nao_orientado.addEdge("a0","e0",49);
-    g_nao_orientado.addEdge("b0","c0",60);
-    g_nao_orientado.addEdge("b0","e0",31);
-    g_nao_orientado.addEdge("b0","f0",44);
-    g_nao_orientado.addEdge("d0","c0",32);
-    g_nao_orientado.addEdge("d0","e0",28);
-    g_nao_orientado.addEdge("d0","f0",34);
-
-    // Mesmas heurísticas
-    g_nao_orientado.setHeuristic("a0",58);
-    g_nao_orientado.setHeuristic("b0",24);
-    g_nao_orientado.setHeuristic("c0",34);
-    g_nao_orientado.setHeuristic("d0",37);
-    g_nao_orientado.setHeuristic("e0",5);
-    g_nao_orientado.setHeuristic("f0",0);
-
-    cout << "===== GRAFO NAO ORIENTADO =====" << endl;
-    runDFS(g_nao_orientado, "e0", "c0");
-
-    return 0;
+    // Rodar A*
+    runAStar(g, "a0", "f0");
+    runDFS(g, "a0", "f0");
 }
