@@ -9,7 +9,7 @@ using namespace std;
 void runDijkstra(const Graph &grafo, const string &start, const string &goal) {
     int fio_limite = 0;
 
-    cout << "\nInicio da execucao" << endl;
+    cout << "\nInicio da Execucao" << endl;
     cout << "Qual o comprimento do fio?" << endl;
     cin >> fio_limite;
 
@@ -28,7 +28,7 @@ void runDijkstra(const Graph &grafo, const string &start, const string &goal) {
 
         // Mostrar iteração
         cout << "\nIteracao " << iteracao++ << ":\n";
-        cout << "Fila: ";
+        cout << "ListaOrdenada: ";
         for (auto &s : frontier) {
             cout << "(" << s.node << ": " << s.cost << ") ";
         }
@@ -40,6 +40,14 @@ void runDijkstra(const Graph &grafo, const string &start, const string &goal) {
         nodesExpanded++;
 
         cout << "Proximo a Ser Explorado: " << atual.node << endl;
+
+        // Mostrar caminho até o nó atual
+        cout << "Caminho: ";
+        for (size_t i = 0; i < atual.path.size(); i++) {
+            cout << atual.path[i];
+            if (i + 1 < atual.path.size()) cout << " -> ";
+        }
+        cout << endl;
 
         int fio_restante = fio_limite - atual.cost;
         cout << "Medida de desempenho - Nos Expandidos: " << nodesExpanded << endl;

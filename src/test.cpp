@@ -53,6 +53,8 @@ int main() {
 
     printGraph(g, start, goal);
     runDijkstra(g, start, goal);
+    runAStar(g, start, goal);
+    runDFS(g, start, goal);
 
     return 0;
 }
