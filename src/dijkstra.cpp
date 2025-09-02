@@ -13,30 +13,30 @@ void runDijkstra(const Graph &grafo, const string &start, const string &goal) {
     cout << "Qual o comprimento do fio?" << endl;
     cin >> fio_limite;
 
-    vector<DijkstraState> frontier; // lista ordenada manualmente
-    unordered_set<string> visited;
+    vector<DijkstraState> fronteira; // lista ordenada manualmente
+    unordered_set<string> visitados;
     int nodesExpanded = 0;
 
     // Inserir estado inicial
-    frontier.push_back({start, 0, {start}});
+    fronteira.push_back({start, 0, {start}});
 
     int iteracao = 1;
 
-    while (!frontier.empty()) {
+    while (!fronteira.empty()) {
         // Ordenar fronteira pelo custo acumulado
-        sort(frontier.begin(), frontier.end());
+        sort(fronteira.begin(), fronteira.end());
 
         // Mostrar iteração
         cout << "\nIteracao " << iteracao++ << ":\n";
         cout << "ListaOrdenada: ";
-        for (auto &s : frontier) {
-            cout << "(" << s.node << ": " << s.cost << ") ";
+        for (auto &s : fronteira) {
+            cout << "(" << s.node << ": " << s.g << ") ";
         }
         cout << endl;
 
         // Expandir o nó de menor custo
-        DijkstraState atual = frontier.front();
-        frontier.erase(frontier.begin());
+        DijkstraState atual = fronteira.front();
+        fronteira.erase(fronteira.begin());
         nodesExpanded++;
 
         cout << "Proximo a Ser Explorado: " << atual.node << endl;
@@ -49,23 +49,23 @@ void runDijkstra(const Graph &grafo, const string &start, const string &goal) {
         }
         cout << endl;
 
-        int fio_restante = fio_limite - atual.cost;
+        int fio_restante = fio_limite - atual.g;
         cout << "Medida de desempenho - Nos Expandidos: " << nodesExpanded << endl;
         cout << "Fio restante: " << fio_restante;
         if (fio_restante < 0) cout << " - Caminho descartado";
         cout << endl;
 
         // Se nó já visitado, ignorar
-        if (visited.find(atual.node) != visited.end()) continue;
-        visited.insert(atual.node);
+        if (visitados.find(atual.node) != visitados.end()) continue;
+        visitados.insert(atual.node);
 
         // Se excedeu o fio, não expandir
-        if (atual.cost > fio_limite) continue;
+        if (atual.g > fio_limite) continue;
 
         // Se objetivo, terminar
         if (atual.node == goal) {
             cout << "\nFim da execucao";
-            cout << "\nDistancia: " << atual.cost;
+            cout << "\nDistancia: " << atual.g;
             cout << "\nCaminho: ";
             for (size_t i = 0; i < atual.path.size(); i++) {
                 cout << atual.path[i];
@@ -78,11 +78,11 @@ void runDijkstra(const Graph &grafo, const string &start, const string &goal) {
         // Expandir vizinhos
         auto vizinhos = grafo.getNeighbors(atual.node);
         for (auto &e : vizinhos) {
-            if (visited.find(e.to) == visited.end()) {
-                int novo_custo = atual.cost + e.cost;
+            if (visitados.find(e.to) == visitados.end()) {
+                int novo_custo = atual.g + e.g;
                 vector<string> novo_path = atual.path;
                 novo_path.push_back(e.to);
-                frontier.push_back({e.to, novo_custo, novo_path});
+                fronteira.push_back({e.to, novo_custo, novo_path});
             }
         }
     }

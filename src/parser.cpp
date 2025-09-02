@@ -45,7 +45,7 @@ static inline bool starts_with(const string &s, const string &prefix) {
 }
 // --------------------------------------------------- //
 
-bool parseFile(const string &filename, Graph &grafo, string &startNode, string &goalNode) {
+bool parseFile(const string &filename, Graph &grafo, string &start, string &goal) {
     // -- Tentativa de abrir o arquivo --
     vector<string> candidates = {
         "input/" + filename,
@@ -74,8 +74,8 @@ bool parseFile(const string &filename, Graph &grafo, string &startNode, string &
     }
     file.close();
 
-    startNode = "";
-    goalNode  = "";
+    start = "";
+    goal  = "";
 
     // Identificar orientação do grafo
     for (const auto &ln : lines) {
@@ -99,14 +99,14 @@ bool parseFile(const string &filename, Graph &grafo, string &startNode, string &
             auto p1 = ln.find('(');
             auto p2 = ln.rfind(')');
             if (p1 != string::npos && p2 != string::npos && p2 > p1+1) {
-                startNode = trim(ln.substr(p1+1, p2 - (p1+1)));
+                start = trim(ln.substr(p1+1, p2 - (p1+1)));
             }
         }
         else if (starts_with(ln, "ponto_final(")) {
             auto p1 = ln.find('(');
             auto p2 = ln.rfind(')');
             if (p1 != string::npos && p2 != string::npos && p2 > p1+1) {
-                goalNode = trim(ln.substr(p1+1, p2 - (p1+1)));
+                goal = trim(ln.substr(p1+1, p2 - (p1+1)));
             }
         }
         else if (starts_with(ln, "pode_ir(")) {

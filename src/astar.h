@@ -16,16 +16,16 @@ using namespace std;
  *  - f(n) = g(n) + h(n): função de avaliação que guia a busca.
  */
 struct AStarState {
-    string node;            ///< Nome ou identificador do nó atual.
+    string node;            ///< Identificador do nó atual.
     int g;                  ///< Custo acumulado até o nó atual (g(n)).
     int f;                  ///< Função de avaliação f(n) = g(n) + h(n).
-    vector<string> path;    ///< Caminho percorrido desde o nó inicial até este estado.
+    vector<string> path;    ///< Caminho percorrido desde a origem até este nó.
 };
 
 /**
  * @brief Executa o algoritmo de busca A* em um grafo.
  *
- * @param grafo Estrutura do grafo que contém os nós, arestas e heurísticas.
+ * @param grafo Grafo em que o algoritmo será executado.
  * @param start Nó inicial da busca.
  * @param goal Nó objetivo da busca.
  */

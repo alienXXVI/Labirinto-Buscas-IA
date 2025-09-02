@@ -15,9 +15,7 @@ void runAStar(const Graph &grafo, const string &start, const string &goal) {
 
     // Melhor custo g(n) conhecido até agora para cada nó
     unordered_map<string, int> gScore;
-
-    // Fechados = nós já expandidos
-    unordered_set<string> fechados;
+    unordered_set<string> visitados;
 
     // Inicializa nó inicial
     AStarState inicial;
@@ -78,14 +76,14 @@ void runAStar(const Graph &grafo, const string &start, const string &goal) {
             return;
         }
 
-        fechados.insert(atual.node);
+        visitados.insert(atual.node);
 
         // Expande vizinhos
         for (auto &edge : grafo.getNeighbors(atual.node)) {
             int novoG = atual.g + edge.cost;
 
             // Se já foi expandido com custo melhor, ignora
-            if (fechados.find(edge.to) != fechados.end() &&
+            if (visitados.find(edge.to) != visitados.end() &&
                 novoG >= gScore[edge.to]) {
                 continue;
             }
@@ -93,19 +91,19 @@ void runAStar(const Graph &grafo, const string &start, const string &goal) {
             // Se nunca visitado ou achou caminho melhor
             if (gScore.find(edge.to) == gScore.end() || novoG < gScore[edge.to]) {
                 gScore[edge.to] = novoG;
-                AStarState viz;
-                viz.node = edge.to;
-                viz.g = novoG;
-                viz.f = novoG + grafo.nodes.at(edge.to).heuristic;
-                viz.path = atual.path;
-                viz.path.push_back(edge.to);
+                AStarState novo;
+                novo.node = edge.to;
+                novo.g = novoG;
+                novo.f = novoG + grafo.nodes.at(edge.to).heuristic;
+                novo.path = atual.path;
+                novo.path.push_back(edge.to);
 
                 // remove duplicatas piores da fronteira
                 fronteira.remove_if([&](const AStarState &s) {
-                    return s.node == viz.node && s.f >= viz.f;
+                    return s.node == novo.node && s.f >= novo.f;
                 });
 
-                fronteira.push_back(viz);
+                fronteira.push_back(novo);
             }
         }
     }
