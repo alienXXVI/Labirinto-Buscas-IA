@@ -11,11 +11,11 @@ void Graph::setOriented(bool val) {
     oriented = val;
 }
 
-bool Graph::isOriented() const { // entender
+bool Graph::isOriented() const {
     return oriented;
 }
 
-void Graph::addNode(const string &name) { // entender
+void Graph::addNode(const string &name) {
     if (nodes.find(name) == nodes.end()) {
         nodes[name] = Node{name, {}, 0};
     }

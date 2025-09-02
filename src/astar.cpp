@@ -69,12 +69,12 @@ void runAStar(const Graph &grafo, const string &start, const string &goal) {
         if (atual.node == goal) {
             cout << "\nFim da Execucao";
             cout << "\nDistancia: " << atual.g;
-            cout << "\nCaminho Final: ";
+            cout << "\nCaminho: ";
             for (size_t i = 0; i < atual.path.size(); i++) {
                 cout << atual.path[i];
                 if (i < atual.path.size() - 1) cout << " -> ";
             }
-            cout << "\nCusto Final: " << atual.g << endl;
+            cout << "\nMedida de Desempenho - Nos Expandidos: " << nodesExpanded << endl << endl;
             return;
         }
 
@@ -112,5 +112,5 @@ void runAStar(const Graph &grafo, const string &start, const string &goal) {
     
     cout << "\nFim da Execucao";
     cout << "\nNao foi encontrado caminho ate " << goal << "." << endl;
-    cout << "Medida de Desempenho - Nos Expandidos: " << nodesExpanded << endl;
+    cout << "Medida de Desempenho - Nos Expandidos: " << nodesExpanded << endl << endl;
 }

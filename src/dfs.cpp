@@ -4,7 +4,7 @@
 using namespace std;
 
 void runDFS(const Graph &grafo, const string &start, const string &goal) {
-    cout << "\nInicio da execucao";
+    cout << "\nInicio da execucao" << endl;
 
     // Usando list (ao invés de stack) para conseguir inserir no início e percorrer
     list<DFSState> pilha;
@@ -55,7 +55,7 @@ void runDFS(const Graph &grafo, const string &start, const string &goal) {
                 cout << atual.path[i];
                 if (i < atual.path.size() - 1) cout << " -> ";
             }
-            cout << "\nMedida de Desempenho - Nos Expandidos: " << nodesExpanded << endl;
+            cout << "\nMedida de Desempenho - Nos Expandidos: " << nodesExpanded << endl << endl;
             return;
         }
 
@@ -78,5 +78,5 @@ void runDFS(const Graph &grafo, const string &start, const string &goal) {
     }
     cout << "\nFim da Execucao";
     cout << "\nNao foi encontrado caminho ate " << goal << "." << endl;
-    cout << "Medida de Desempenho - Nos Expandidos: " << nodesExpanded << endl;
+    cout << "Medida de Desempenho - Nos Expandidos: " << nodesExpanded << endl << endl;
 }

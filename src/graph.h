@@ -11,17 +11,17 @@ using namespace std;
  * @brief Representa uma aresta em um grafo.
  */
 struct Edge {
-    string to; ///< Nó de destino da aresta
-    int cost; ///< Custo associado à aresta (peso)
+    string to;  ///< Nó de destino da aresta
+    int cost;   ///< Custo associado à aresta (peso)
 };
 
 /**
  * @brief Representa um nó do grafo.
  */
 struct Node {
-    string nome; ///< Nome do nó (identificação única)
-    vector<Edge> neighbors; ///< Lista de vizinhos (arestas de saída)
-    int heuristic = 0; ///< Heurística h(n) usada no A* (padrão: 0)
+    string nome;                ///< Nome do nó (identificação única)
+    vector<Edge> neighbors;     ///< Lista de vizinhos (arestas de saída)
+    int heuristic = 0;          ///< Heurística h(n) usada no A* (padrão: 0)
 };
 
 /**
@@ -37,7 +37,7 @@ public:
      * @brief Construtor da classe Graph.
      * @param oriented Define se o grafo é orientado (default = true).
      */
-    Graph(bool oriented = true); // por que?
+    Graph(bool oriented = true);
 
     /**
      * @brief Define se o grafo é orientado.
