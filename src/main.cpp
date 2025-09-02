@@ -1,53 +1,110 @@
-#include <iostream>
-#include "parser.h"
 #include "graph.h"
+#include "dijkstra.h"
 #include "astar.h"
 #include "dfs.h"
-#include "dijkstra.h"
+#include "parser.h"
+#include <iostream>
+#include <string>
+#include <algorithm>
 
-int main() {
-    std::string arquivo;
-    std::cout << "Digite o nome do arquivo de entrada (garante que ele esteja dentro da pasta input/): ";
-    std::cin >> arquivo;
+using namespace std;
 
-    Graph grafo;
-    if (!parseFile(arquivo, grafo)) {
-        std::cout << "Erro ao ler o arquivo!" << std::endl;
-        return 1;
+/**
+ * @brief Função auxiliar para imprimir resumo do grafo carregado.
+ */
+static void printGraph(const Graph &g, const string &start, const string &goal) {
+    cout << "\n--- RESUMO DO GRAFO ---\n";
+    cout << "Orientado? " << (g.isOriented() ? "Sim" : "Nao") << "\n";
+    cout << "No inicial: " << start << "\n";
+    cout << "No objetivo: " << goal << "\n";
+
+    vector<string> nomes;
+    for (const auto &kv : g.nodes) nomes.push_back(kv.first);
+    sort(nomes.begin(), nomes.end());
+
+    cout << "Nos (" << nomes.size() << "):\n";
+    for (const auto &nome : nomes) {
+        const Node &n = g.nodes.at(nome);
+        cout << "  - " << n.nome << "  (h = " << n.heuristic << ")\n";
+        if (n.neighbors.empty()) {
+            cout << "      (sem vizinhos)\n";
+        } else {
+            cout << "      Vizinhos: ";
+            for (size_t i = 0; i < n.neighbors.size(); ++i) {
+                const Edge &e = n.neighbors[i];
+                cout << e.to << " (custo: " << e.cost << ")";
+                if (i + 1 < n.neighbors.size()) cout << " | ";
+            }
+            cout << "\n";
+        }
     }
+    cout << "-----------------------\n";
+}
 
-    int opcao;
-    do {
-        std::cout << "\nEscolha o algoritmo:\n";
-        std::cout << "1. A* (Melhor solucao)\n";
-        std::cout << "2. DFS (Pior solucao)\n";
-        std::cout << "3. Custo Uniforme (Bonus fio limitado)\n";
-        std::cout << "0. Encerrar\n";
-        std::cout << "Opcao: ";
-        std::cin >> opcao;
+/**
+ * @brief Menu principal do sistema de algoritmos de busca.
+ */
+int main() {
+    Graph grafo;
+    string start, goal;
+    bool grafoCarregado = false;
 
-        switch(opcao) {
-            case 1:
-                runAStar(grafo);
-                break;
-            case 2:
-                runDFS(grafo);
-                break;
-            case 3: {
-                int comprimento_fio;
-                std::cout << "Digite o comprimento do fio: ";
-                std::cin >> comprimento_fio;
-                runDijkstra(grafo, comprimento_fio);
+    int opcao = -1;
+    while (opcao != 0) {
+        cout << "\n===== MENU PRINCIPAL =====\n";
+        cout << "1. Ler arquivo de entrada e imprimir resumo do grafo\n";
+        cout << "2. Executar Busca em Profundidade (DFS) - Pior Solução\n";
+        cout << "3. Executar A* - Melhor Solução\n";
+        cout << "4. Executar Custo Uniforme (Dijkstra) com fio limitado - Bônus\n";
+        cout << "0. Sair\n";
+        cout << "Escolha uma opcao: ";
+        cin >> opcao;
+
+        switch (opcao) {
+            case 1: {
+                string filename;
+                cout << "Digite o nome do arquivo de entrada (na pasta input/): ";
+                cin >> filename;
+                if (parseFile(filename, grafo, start, goal)) {
+                    grafoCarregado = true;
+                    cout << "Arquivo carregado com sucesso.\n";
+                    printGraph(grafo, start, goal);
+                } else {
+                    cout << "Erro ao ler o arquivo.\n";
+                }
                 break;
             }
+            case 2:
+                if (grafoCarregado) {
+                    cout << "\nExecutando Busca em Profundidade..." << endl;
+                    runDFS(grafo, start, goal);
+                } else {
+                    cout << "Carregue primeiro um grafo (opcao 1).\n";
+                }
+                break;
+            case 3:
+                if (grafoCarregado) {
+                    cout << "\nExecutando A*..." << endl;
+                    runAStar(grafo, start, goal);
+                } else {
+                    cout << "Carregue primeiro um grafo (opcao 1).\n";
+                }
+                break;
+            case 4:
+                if (grafoCarregado) {
+                    cout << "\nExecutando Custo Uniforme.." << endl;
+                    runDijkstra(grafo, start, goal);
+                } else {
+                    cout << "Carregue primeiro um grafo (opcao 1).\n";
+                }
+                break;
             case 0:
-                std::cout << "Programa encerrado." << std::endl;
+                cout << "Saindo...\n";
                 break;
             default:
-                std::cout << "Opcao invalida.\n";
-                break;
+                cout << "Opcao invalida. Tente novamente.\n";
         }
-    } while(opcao != 0);
+    }
 
     return 0;
 }

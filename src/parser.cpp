@@ -142,6 +142,5 @@ bool parseFile(const string &filename, Graph &grafo, string &startNode, string &
         }
     }
 
-    cout << "Arquivo lido com sucesso: " << usedPath << endl;
     return true;
 }

@@ -4,7 +4,7 @@
 using namespace std;
 
 void runDFS(const Graph &grafo, const string &start, const string &goal) {
-    cout << "\nInicio da Execucao" << endl;
+    cout << "\nInicio da Execucao";
 
     // Usando list (ao invés de stack) para conseguir inserir no início e percorrer
     list<DFSState> pilha;

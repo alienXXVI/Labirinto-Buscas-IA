@@ -8,7 +8,7 @@
 using namespace std;
 
 void runAStar(const Graph &grafo, const string &start, const string &goal) {
-    cout << "\nInicio da Execucao" << endl;
+    cout << "\nInicio da Execucao";
 
     // Lista aberta (fronteira), ordenada por f = g + h
     list<AStarState> fronteira;
