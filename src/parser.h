@@ -4,7 +4,17 @@
 #include <string>
 #include "graph.h"
 
-// Função que lê o arquivo de entrada e popula o grafo
-bool parseFile(const std::string &filename, Graph &grafo);
+using namespace std;
+
+/**
+ * @brief Faz o parse do arquivo e popula o grafo.
+ * @param filename Nome do arquivo (dentro de input/ ou ../input/).
+ * @param grafo Estrutura de grafo a ser preenchida.
+ * @param startNode Nome do nó inicial (retornado pela função).
+ * @param goalNode Nome do nó objetivo/meta (retornado pela função).
+ * @return true se leitura foi bem sucedida; false caso contrário.
+ */
+bool parseFile(const string &filename, Graph &grafo,
+               string &startNode, string &goalNode);
 
 #endif

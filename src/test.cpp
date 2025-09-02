@@ -1,33 +1,58 @@
+#include "parser.h"
 #include "graph.h"
 #include "astar.h"
 #include "dfs.h"
 #include <iostream>
+#include <vector>
+#include <algorithm>
+
 using namespace std;
 
+static void printGraph(const Graph &g, const string &start, const string &goal) {
+    cout << "\n--- RESUMO DO GRAFO ---\n";
+    cout << "Orientado? " << (g.isOriented() ? "Sim" : "Nao") << "\n";
+    cout << "No inicial: " << start << "\n";
+    cout << "No objetivo: " << goal << "\n";
+
+    vector<string> nomes;
+    for (const auto &kv : g.nodes) nomes.push_back(kv.first);
+    sort(nomes.begin(), nomes.end());
+
+    cout << "Nos (" << nomes.size() << "):\n";
+    for (const auto &nome : nomes) {
+        const Node &n = g.nodes.at(nome);
+        cout << "  - " << n.nome << "  (h = " << n.heuristic << ")\n";
+        if (n.neighbors.empty()) {
+            cout << "      (sem vizinhos)\n";
+        } else {
+            cout << "      Vizinhos: ";
+            for (size_t i = 0; i < n.neighbors.size(); ++i) {
+                const Edge &e = n.neighbors[i];
+                cout << e.to << " (custo: " << e.cost << ")";
+                if (i + 1 < n.neighbors.size()) cout << " | ";
+            }
+            cout << "\n";
+        }
+    }
+    cout << "-----------------------\n";
+}
+
 int main() {
-    Graph g(true); // true = orientado, false = nao-orientado
+    string nomeArquivo;
+    cout << "Digite o nome do arquivo (na pasta input/): ";
+    cin >> nomeArquivo;
 
-    // Adicionar arestas conforme seu exemplo
-    g.addEdge("a0", "b0", 95);
-    g.addEdge("a0", "c0", 44);
-    g.addEdge("a0", "d0", 98);
-    g.addEdge("a0", "e0", 49);
-    g.addEdge("b0", "c0", 60);
-    g.addEdge("b0", "e0", 31);
-    g.addEdge("b0", "f0", 44);
-    g.addEdge("d0", "c0", 32);
-    g.addEdge("d0", "e0", 28);
-    g.addEdge("d0", "f0", 34);
+    Graph g;
+    string start, goal;
 
-    // Heurísticas
-    g.setHeuristic("a0", 58);
-    g.setHeuristic("b0", 24);
-    g.setHeuristic("c0", 34);
-    g.setHeuristic("d0", 37);
-    g.setHeuristic("e0", 5);
-    g.setHeuristic("f0", 0);
+    if (!parseFile(nomeArquivo, g, start, goal)) {
+        cerr << "Falha ao parsear o arquivo.\n";
+        return 1;
+    }
 
-    // Rodar A*
-    runAStar(g, "a0", "f0");
-    runDFS(g, "a0", "f0");
+    printGraph(g, start, goal);
+    runAStar(g, start, goal);
+    runDFS(g, start, goal);
+
+    return 0;
 }
