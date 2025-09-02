@@ -14,7 +14,6 @@ using namespace std;
  * @param goalNode Nome do nó objetivo/meta (retornado pela função).
  * @return true se leitura foi bem sucedida; false caso contrário.
  */
-bool parseFile(const string &filename, Graph &grafo,
-               string &startNode, string &goalNode);
+bool parseFile(const string &filename, Graph &grafo, string &startNode, string &goalNode);
 
 #endif

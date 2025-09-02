@@ -32,7 +32,7 @@ void runDFS(const Graph &grafo, const string &start, const string &goal) {
         DFSState atual = pilha.front();
         pilha.pop_front();
         naFronteira.erase(atual.node);
-        nodesExpanded++; // incrementa contador ao expandir
+        nodesExpanded++;
 
         cout << "Proximo a Ser Explorado: " << atual.node << endl;
 

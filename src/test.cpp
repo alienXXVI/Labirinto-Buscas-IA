@@ -2,6 +2,7 @@
 #include "graph.h"
 #include "astar.h"
 #include "dfs.h"
+#include "dijkstra.h"
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -51,8 +52,7 @@ int main() {
     }
 
     printGraph(g, start, goal);
-    runAStar(g, start, goal);
-    runDFS(g, start, goal);
+    runDijkstra(g, start, goal);
 
     return 0;
 }

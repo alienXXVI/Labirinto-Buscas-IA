@@ -12,9 +12,9 @@ using namespace std;
  * @brief Estrutura auxiliar para representar estado da pilha no DFS.
  */
 struct DFSState {
-    string node;            ///< Nó atual
-    int cost;               ///< Custo acumulado até aqui
-    vector<string> path;    ///< Caminho percorrido até aqui
+    string node;            ///< Nome ou identificador do nó atual.
+    int cost;               ///< Custo acumulado até o nó atual (g(n)).
+    vector<string> path;    ///< Caminho percorrido desde o nó inicial até este estado.
 };
 
 /**
