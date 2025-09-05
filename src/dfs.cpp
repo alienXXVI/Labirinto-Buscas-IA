@@ -69,7 +69,7 @@ void runDFS(const Graph &grafo, const string &start, const string &goal) {
             if (visitados.find(it->to) == visitados.end() && fronteira.find(it->to) == fronteira.end()) {
                 DFSState novo;
                 novo.node = it->to;
-                novo.g = atual.g + it->g;
+                novo.g = atual.g + it->cost; // #
                 novo.path = atual.path;
                 novo.path.push_back(it->to);
                 pilha.push_front(novo);   // insere no início

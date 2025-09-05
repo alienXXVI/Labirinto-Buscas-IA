@@ -79,7 +79,7 @@ void runDijkstra(const Graph &grafo, const string &start, const string &goal) {
         auto vizinhos = grafo.getNeighbors(atual.node);
         for (auto &e : vizinhos) {
             if (visitados.find(e.to) == visitados.end()) {
-                int novo_custo = atual.g + e.g;
+                int novo_custo = atual.g + e.cost; // %
                 vector<string> novo_path = atual.path;
                 novo_path.push_back(e.to);
                 fronteira.push_back({e.to, novo_custo, novo_path});

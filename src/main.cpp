@@ -53,9 +53,9 @@ int main() {
     while (opcao != 0) {
         cout << "\n===== MENU PRINCIPAL =====\n";
         cout << "1. Ler arquivo de entrada e imprimir resumo do grafo\n";
-        cout << "2. Executar Busca em Profundidade (DFS) - Pior Solução\n";
-        cout << "3. Executar A* - Melhor Solução\n";
-        cout << "4. Executar Custo Uniforme (Dijkstra) com fio limitado - Bônus\n";
+        cout << "2. Executar Busca em Profundidade (DFS) - Pior Solucao\n";
+        cout << "3. Executar A* - Melhor Solucao\n";
+        cout << "4. Executar Custo Uniforme (Dijkstra) com fio limitado - Bonus\n";
         cout << "0. Sair\n";
         cout << "Escolha uma opcao: ";
         cin >> opcao;
