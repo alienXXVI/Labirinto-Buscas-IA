@@ -17,11 +17,7 @@ bool Graph::isOriented() const {
 
 void Graph::addNode(const string &name) {
     if (nodes.find(name) == nodes.end()) {
-        Node newNode;
-        newNode.nome = name;
-        newNode.neighbors = {};
-        newNode.heuristic = 0;
-        nodes[name] = newNode;
+        nodes[name] = Node{name, {}, 0};
     }
 }
 
